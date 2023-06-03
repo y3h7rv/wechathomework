@@ -14,19 +14,20 @@ Page({
      * 生命周期函数--监听页面加载
      */
      next:function(e){
-         //console.log("userInfo",getApp().globalData.userInfo);
+         console.log("userInfo",getApp().globalData.userInfo);
          wx.redirectTo({
            url:'/pages/login/login'
          })
      },
      onLoad: function() {
-
+        wx.showLoading({
+          title: '加载中',
+        })
         if (wx.getUserProfile) {
             this.setData({
               canIUseGetUserProfile: true
             })
           }
-        
     setTimeout(function()  {
         wx.hideLoading();
         
@@ -43,6 +44,9 @@ getUserProfile(e) {
           userInfo: res.userInfo,
           hasUserInfo: true
         })
+        console.log(res.userInfo)
+        getApp().globalData.userInfo=res.userInfo
+        this.next();
       }
     })
   },

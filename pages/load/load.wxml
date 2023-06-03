@@ -2,9 +2,14 @@
 <!-- 需要使用 button 来授权登录 -->
 <view class="container">
   <view class="userinfo">
-    <block wx:if="{{!hasUserInfo}}">
-      <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 获取头像昵称 </button>
-      <button wx:else open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+    <block wx:if="{{!hasUserInfo}}" class="mai">
+      <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile" class="but" open-type="chooseAvatar"> 授权登录 </button>
+      <button wx:else open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 授权登录 </button>
+      <view class="med">------------------------</view>
+    <view class="txt">
+          欢迎使用树洞小程序
+      </view>
     </block>
+    
   </view>
 </view>
