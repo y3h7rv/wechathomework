@@ -1,18 +1,106 @@
 // pages/login/login.js
 Page({
-
+   
     /**
      * 页面的初始数据
      */
     data: {
+        phonenumber:"",
+        password:"",
+    },
 
+    navigateToPage: function() {
+        wx.navigateTo({
+          url: '/pages/enroll/enroll'
+        })
+    },
+
+    log:function(e){
+        var that=this
+        var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
+        if(that.data.username==''){
+            wx.showModal({
+                title: '提示',
+                content: '请输入用户名',
+                showCancel:false,
+                success (res) {}
+              })
+        }
+        else if(that.data.phonenumber==''){
+            wx.showModal({
+                title: '提示',
+                content: '请输入手机号',
+                showCancel:false,
+                success (res) {}
+              })
+        }
+        else if(that.data.phonenumber.length!=11){
+            wx.showModal({
+                title: '提示',
+                content: '手机号长度有误，请重新输入！',
+                showCancel:false,
+                success (res) {}
+              })
+        }
+        else if(!myreg.test(that.data.phonenumber)){
+            wx.showModal({
+                title: '提示',
+                content: '请输入正确的手机号码',
+                showCancel:false,
+                success (res) {}
+              })
+        }
+        else if(that.data.password==''){
+            wx.showModal({
+                title: '提示',
+                content: '请输入密码',
+                showCancel:false,
+                success (res) {}
+              })
+        }
+        else{
+            console.log("success")
+            wx.redirectTo({
+                url: '/pages/square/square'
+              })
+        };
+        wx.request({
+            url: 'http://localhost:5000/treehole/user/login',
+            data:{
+              phone:that.data.phonenumber,
+              password:that.data.password
+            },
+            method:'POST',
+            header:{
+                'content-type':'application/x-www-form-urlencoded'
+            },
+            success:function(res){
+                console.log(res.data)
+                getApp().globalData.user=res.data
+                console.log(getApp().globalData.user)
+            },
+            fail:function(res){
+                console.log('sign_method_failed')
+            },
+            complete:function(res){
+                console.log('sign_method_completed')
+            }
+          })
+    },
+
+    phonenumberInput: function(e) {
+        this.data.phonenumber = e.detail.value
+    },
+
+    passwordInput: function(e) {
+        this.data.password = e.detail.value
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
-
+        
     },
 
     /**

@@ -1,2 +1,13 @@
 <!--pages/login/login.wxml-->
-<text>pages/login/login.wxml</text>
+<view class="background">
+    <view class="first">
+        <input id="phonenumber" type="number" placeholder="手机号" placeholder-class="plas" class="inputs" bindinput="phonenumberInput"/>
+    </view>    
+    <view class="second">
+        <input id="psw" placeholder="密码" placeholder-class="plas" class="inputs" type="password" bindinput="passwordInput"/>
+    </view>  
+    <view id="btn" class="click" bindtap="log">登录</view>
+    <view class="cha" bindtap="signin">
+        <text class="no" bindtap="navigateToPage">还没有帐号？点我注册</text>
+    </view>
+</view>

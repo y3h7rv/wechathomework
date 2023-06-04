@@ -5,7 +5,73 @@ Page({
      * 页面的初始数据
      */
     data: {
+        detail: '', 
+    },
+    // bindTextAreaBlur:function(e){
+    //     console.log(e.detail.value)
+    //     this.setData({
+    //         detail: e.detail.value // 更新detail的值
+    //     })
+    // },
+    detailInput:function(e){
+        // console.log(e)
+        this.data.detail=e.detail.value
+         console.log(this.data.detail)
+    },
 
+    send:function(e){
+        var that=this
+        wx.showLoading({
+          title: '加载中',
+        })
+        //与服务器交互
+        wx.request({
+          url: 'http://localhost:5000/treehole/Message/publish_new_message',
+          method:"POST",
+          header:{
+              "content-type":"application/x-www-form-urlencoded"
+          },
+          data:{
+              user_id:getApp().globalData.user.id,
+              username:getApp().globalData.user.username,
+              face_url:getApp().globalData.userInfo.avatarUrl,
+              content:that.data.detail,
+              total_likes:0,
+              send_timestamp:e.timeStamp,
+          },
+          success:function(res){
+              console.log('commit_success'),
+              console.log(that.data.detail)
+          },
+          fail:function(res){
+              console.log('commit fail')
+          },
+          complete:function(res){
+              console.log('commit complete')
+          }
+        })
+        
+        if(that.data.detail==''){
+            setTimeout(() => {
+                wx.hideLoading()
+            }, 0);
+            wx.showModal({
+                title: '提示',
+                content: '请输入树洞内容！',
+                showCancel:false,
+                success (res) {}
+              })
+        }
+        else if(that.data.detail!=''){
+            setTimeout(() => {
+                wx.hideLoading()
+            }, 1000);
+            // console.log("success")
+            wx.redirectTo({
+                url: '/pages/square/square'
+              })
+        };
+    
     },
 
     /**

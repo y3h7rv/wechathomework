@@ -6,9 +6,7 @@
        "pages/square/square",
        "pages/mine/mine",
        "pages/commit/commit",
-       "pages/bottom_menu/bottom_menu",
-       "pages/index/index",
-       "pages/logs/logs"
+       "pages/bottom_menu/bottom_menu"
   ],
   "window":{
     "backgroundTextStyle":"light",
