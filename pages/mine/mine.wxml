@@ -3,8 +3,13 @@
 <view class="personalInf">
     <view class="deco">
         <open-data class='ava' type="userAvatarUrl"></open-data>
+        <!-- <image class='ava'  src="{{face_url}}" mode=""/> -->
+    </view> 
+    <view class="deco">
+        <text class="nn">{{user_name}}</text>
     </view>
-    <open-data class="nn" type="userNickName"></open-data>
+    <!-- <open-data class="nn" type="userNickName"></open-data> -->
+
 </view>
 <block wx:for="{{showdata}}" wx:for-item="itemName" wx:for-index="id">
     <view class="box">
@@ -12,8 +17,8 @@
             <open-data class='touxiang' type="userAvatarUrl"></open-data>
             <view class="person">
                 <view class="name"> 
-                    <open-data class="showname" type="userNickName"></open-data>  
-                    <!-- <text class="showname">{{itemName.username}}</text> -->
+                    <!-- <open-data class="showname" type="userNickName"></open-data>   -->
+                    <text class="showname">{{user_name}}</text>
                 </view>
                 <view class="tel">   
                     <text class="showtime">{{itemName.send_timestamp}}</text>
@@ -24,8 +29,8 @@
         <text class="content">{{itemName.content}}</text>
         </view>
         <view class="thirdblock">
-        <image class="like" src="/images/点赞.png" bindtap="changeImage"/>
-        <image wx:if="{{showNewImage}}" class="like" src="/images/点赞 (1).png" bindtap="changeImage" bindtap="hideImage"/>
+        <image  class='like' src="{{itemName.islike==1?'/images/点赞 (1).png':'/images/点赞.png'}}"  bindtap="like" id="{{itemName.id}}"/>
+        <!-- <image wx:if="{{showNewImage}}" class="like" src="/images/点赞 (1).png" bindtap="changeImage" /> -->
         <text class="num">{{itemName.total_likes}}</text>
         </view>
     </view>

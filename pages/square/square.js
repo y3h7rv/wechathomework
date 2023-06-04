@@ -38,7 +38,70 @@ Page({
           showNewImage: !this.data.showNewImage // 点击图片后显示/隐藏新图片
         })
     },
-
+    like:function(e) {
+        var that=this;
+        var showdata=that.data.showdata;
+        for(var i=0;i<showdata.length;i++){
+            if(showdata[i].id==e.target.id){
+                if(showdata[i].islike==1){
+                    wx.showModal({
+                      title: '提示',
+                      content: '已点赞',
+                      complete: (res) => {
+                        if (res.cancel) {
+                          
+                        }
+                    
+                        if (res.confirm) {
+                          
+                        }
+                      }
+                    })
+                }else{
+                    console.log(e)
+                    showdata[i].total_likes++;
+                    showdata[i].islike=1;
+                    that.setData({
+                        showdata:showdata,
+                    })
+                    wx.request({
+                        url: 'http://localhost:5000/treehole/Message/do_like',
+                        data:{
+                            user_id:e.target.dataset.user_id,
+                            id:e.target.id,
+                        },
+                        method:"POST",
+                        header:{
+                            "content-type":"application/x-www-form-urlencoded"
+                          },
+                          success:function(res){
+                              console.log(res.data)
+                             wx.showModal({
+                               title: '提示',
+                               content: '点赞成功',
+                               complete: (res) => {
+                                 if (res.cancel) {
+                                   
+                                 }
+                             
+                                 if (res.confirm) {
+                                   
+                                 }
+                               }
+                             })
+                          },
+                          fail:function(res){
+                              console.log('do_like_failed')
+                          },
+                          complete:function(res){
+                              console.log('do_like_completed')
+                          }
+                      })
+                }
+            }
+        }
+    
+},
     hideImage: function() {
         this.setData({
           showNewImage: false // 点击新图片后隐藏原来的图片

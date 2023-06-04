@@ -17,8 +17,8 @@
         <text class="content">{{itemName.content}}</text>
         </view>
         <view class="thirdblock">
-        <image class="like" src="/images/点赞.png" bindtap="changeImage"/>
-        <image wx:if="{{showNewImage}}" class="like" src="/images/点赞 (1).png" bindtap="changeImage" bindtap="hideImage"/>
+        <image  class=" like" src="{{itemName.islike==1?'/images/点赞 (1).png':'/images/点赞.png'}}" bindtap="like" id="{{itemName.id}}" data-user_id="{{itemName.user_id}}"/>
+        <!-- <image wx:if="{{showNewImage}}" class="like" src="/images/点赞 (1).png" bindtap="changeImage" /> -->
         <text class="num">{{itemName.total_likes}}</text>
         </view>
     </view>
