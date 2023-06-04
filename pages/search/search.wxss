@@ -1,37 +1,9 @@
-/* pages/mine/mine.wxss */
+/* pages/search.wxss */
+/* pages/square/square.wxss */
 @import "/pages/bottom_menu/bottom_menu";
+
 page{
     background-color: #efefef;
-}
-.search{
-    margin-top: 0rpx;
-    margin-left: 50rpx;
-    width: 100rpx;
-    height: 100rpx;
-}
-.personalInf{
-    width: 100%;
-    background-color: #fff;
-    padding-top: 50rpx;
-    padding-bottom: 50rpx;
-    border-bottom: 20rpx solid #efefef;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.deco{
-    width: 200rpx;
-    height: 200rpx;
-    margin-right: 50rpx;
-}
-
-.nn{
-    font-size: 34rpx;
-    color: #3F5185;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-weight: bold;
-    margin-top: 70rpx;
 }
 
 .scbg{
@@ -126,12 +98,6 @@ page{
     margin-left: 20rpx;
     width: 50rpx;
     height: 50rpx; 
-}
-.delete{
-    margin-top: 20rpx;
-    margin-left: 500rpx;
-    width: 50rpx;
-    height: 50rpx;
 }
 
 .num{

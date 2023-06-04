@@ -25,31 +25,7 @@ Page({
           title: '加载中',
         })
         //与服务器交互
-        wx.request({
-          url: 'http://localhost:5000/treehole/Message/publish_new_message',
-          method:"POST",
-          header:{
-              "content-type":"application/x-www-form-urlencoded"
-          },
-          data:{
-              user_id:getApp().globalData.user.id,
-              username:getApp().globalData.user.username,
-              face_url:getApp().globalData.userInfo.avatarUrl,
-              content:that.data.detail,
-              total_likes:0,
-              send_timestamp:e.timeStamp,
-          },
-          success:function(res){
-              console.log('commit_success'),
-              console.log(that.data.detail)
-          },
-          fail:function(res){
-              console.log('commit fail')
-          },
-          complete:function(res){
-              console.log('commit complete')
-          }
-        })
+
         
         if(that.data.detail==''){
             setTimeout(() => {
@@ -63,6 +39,44 @@ Page({
               })
         }
         else if(that.data.detail!=''){
+    wx.request({
+        url: 'http://localhost:5000/treehole/Message/publish_new_message',
+        method:"POST",
+        header:{
+            "content-type":"application/x-www-form-urlencoded"
+        },
+        data:{
+            user_id:getApp().globalData.user.id,
+            username:getApp().globalData.user.username,
+            face_url:getApp().globalData.userInfo.avatarUrl,
+            content:that.data.detail,
+            total_likes:0,
+            send_timestamp:e.timeStamp,
+        },
+        success:function(res){
+            console.log('commit_success'),
+            console.log(that.data.detail)
+            wx.showModal({
+              title: '提示',
+              content: '发送成功',
+              complete: (res) => {
+                if (res.cancel) {
+                  
+                }
+            
+                if (res.confirm) {
+                  
+                }
+              }
+            })
+        },
+        fail:function(res){
+            console.log('commit fail')
+        },
+        complete:function(res){
+            console.log('commit complete')
+        }
+      })
             setTimeout(() => {
                 wx.hideLoading()
             }, 1000);

@@ -1,16 +1,16 @@
-// pages/square/square.js
+// pages/search.js
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-        firco:"black",
-        secco:"#979797",
-        showNewImage: false, // 初始状态下不显示新图片
         showdata:{}
     },
 
+    /**
+     * 生命周期函数--监听页面加载
+     */
     like:function(e) {
         var that=this;
         var showdata=that.data.showdata;
@@ -31,12 +31,12 @@ Page({
                       }
                     })
                 }else{
-                    console.log(e)
                     showdata[i].total_likes++;
                     showdata[i].islike=1;
                     that.setData({
                         showdata:showdata,
                     })
+                    console.log(e)
                     wx.request({
                         url: 'http://localhost:5000/treehole/Message/do_like',
                         data:{
@@ -75,57 +75,32 @@ Page({
         }
     
 },
-    first_select: function(){
-        // wx.redirectTo({
-        //     url: '../commit/commit',
-        //   })
-    },
-
-    second_select: function(){
-        wx.navigateTo({
-            url: '../commit/commit',
-          })
-    },
-
-    third_select: function(){
-        wx.redirectTo({
-            url: '../mine/mine',
-          })
-    },
-
-    /**
-     * 生命周期函数--监听页面加载
-     */
     onLoad(options) {
-        var that=this
-        wx.showLoading({
-          title: '加载中',
-        })
+        console.log('username', options.username)
+        var user_name=options.username;
+        var that=this;
         wx.request({
-          url: 'http://localhost:5000/treehole/Message/get_all_messages',
-          header:{
-              "content-type":'application/x-www-form-urlencoded'
-          },
-          method:"POST",
-          success:function(res){
-              that.setData({
-                showdata:res.data
-              })
-              console.log(that.data.showdata)
-          },
-          fail:function(res){
-              console.log("fail_to_get_message")
-          },
-          complete:function(res){
-              console.log('finish_to_get_message')
-              wx.hideLoading()
-          },
-          
-        })
-        setTimeout(function() {
-            wx.hideLoading()
-        }   
-        , 2000);
+            url: 'http://localhost:5000/treehole/Message/search_user',
+            data:{
+                username:user_name,
+            },
+            method:"POST",
+            header:{
+                "content-type":"application/x-www-form-urlencoded"
+              },
+              success:function(res){
+                  console.log(res.data)
+                  that.setData({
+                      showdata:res.data
+                  })
+              },
+              fail:function(res){
+                  console.log('get_his/her_content_failed')
+              },
+              complete:function(res){
+                  console.log('get_his/her_content_completed')
+              }
+          })
     },
 
     /**
@@ -153,7 +128,9 @@ Page({
      * 生命周期函数--监听页面卸载
      */
     onUnload() {
-
+        wx.navigateBack({
+            delta: 1,
+          })
     },
 
     /**

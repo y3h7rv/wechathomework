@@ -10,7 +10,7 @@ Page({
         secco:"black",
         showdata:{},
         user_name:"",
-        face_url:""
+        face_url:"",
         // list: [{
         //     face_url:"/images/加号 (1).png",
         //     username:"哆啦B梦",
@@ -45,16 +45,112 @@ Page({
         //     url: '../mine/mine',
         //   })
     },
-    hideImage: function() {
-        this.setData({
-          showNewImage: false // 点击新图片后隐藏原来的图片
-        })
+
+    search:function(){
+
+    wx.showModal({
+        editable:true,//显示输入框
+        placeholderText:'请输入搜索用户名',//显示输入框提示信息
+        success: res => {
+          if (res.confirm) { //点击了确认
+            console.log(res.content)//用户输入的值
+            wx.request({
+              url: 'http://localhost:5000/treehole/Message/search_user',
+              data:{
+                  username:res.content
+              },
+              method:"POST",
+              header:{
+                "content-type":"application/x-www-form-urlencoded"
+              },
+              success:function (res) {
+                  if(res.data.code==10021)
+                  {
+                      wx.showModal({
+                        title: '提示',
+                        content: '用户不存在',
+                        complete: (res) => {
+                          if (res.cancel) {
+                            
+                          }
+                      
+                          if (res.confirm) {
+                            
+                          }
+                        }
+                      })
+                  }else{
+                      
+                      wx.navigateTo({
+                        url: '../search/search?username='+res.data[0].username,
+                      })
+                  }
+              }
+            })
+          } else {
+            console.log('用户点击了取消')
+          }
+        }
+      })
     },
-    changeImage: function(e) {
-        this.setData({
-          showNewImage: !this.data.showNewImage // 点击图片后显示/隐藏新图片
-        })
+    delete:function(e) {
+        var that=this;
+        var showdata=that.data.showdata;
+
+        for(var i=0;i<showdata.length;i++){
+            if(showdata[i].id==e.target.id){
+                wx.showModal({
+                  title: '提示',
+                  content: '是否删除',
+                  complete: (res) => {
+                    if (res.cancel) {
+                      
+                    }
+                
+                    if (res.confirm) {
+                        wx.request({
+                            url: 'http://localhost:5000/treehole/Message/delete_message',
+                            data:{
+                                user_id:getApp().globalData.user.id,
+                                id:e.target.id,
+                            },
+                            method:"POST",
+                            header:{
+                                "content-type":"application/x-www-form-urlencoded"
+                              },
+                              success:function(res){
+                                  console.log(res.data)
+                                 wx.showModal({
+                                   title: '提示',
+                                   content: '删除成功',
+                                   complete: (res) => {
+                                     if (res.cancel) {
+                                       that.onLoad()
+                                     }
+                                 
+                                     if (res.confirm) {
+                                       that.onLoad()
+                                     }
+                                   }
+                                 })
+                              },
+                              fail:function(res){
+                                  console.log('do_like_failed')
+                              },
+                              complete:function(res){
+                                  console.log('do_like_completed')
+                              }
+                          })
+                    }
+                  }
+                })
+
+                
+            }
+        }
     },
+
+    
     like:function(e) {
         var that=this;
         var showdata=that.data.showdata;

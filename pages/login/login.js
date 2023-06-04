@@ -59,33 +59,50 @@ Page({
               })
         }
         else{
-            console.log("success")
-            wx.redirectTo({
-                url: '/pages/square/square'
+            wx.request({
+                url: 'http://localhost:5000/treehole/user/login',
+                data:{
+                  phone:that.data.phonenumber,
+                  password:that.data.password
+                },
+                method:'POST',
+                header:{
+                    'content-type':'application/x-www-form-urlencoded'
+                },
+                success:function(res){
+                    if(res.data.code==10022){
+                        wx.showModal({
+                          title: '提示',
+                          content: '请检查手机号和密码',
+                          complete: (res) => {
+                            if (res.cancel) {
+                              
+                            }
+                        
+                            if (res.confirm) {
+                              
+                            }
+                          }
+                        })
+                    }else{
+                    console.log(res.data)
+                    getApp().globalData.user=res.data
+                    console.log(getApp().globalData.user)
+                    wx.redirectTo({
+                        url: '/pages/square/square'
+                      })
+                    }
+                },
+                fail:function(res){
+                    console.log('sign_method_failed')
+                },
+                complete:function(res){
+                    console.log('sign_method_completed')
+                }
               })
+
         };
-        wx.request({
-            url: 'http://localhost:5000/treehole/user/login',
-            data:{
-              phone:that.data.phonenumber,
-              password:that.data.password
-            },
-            method:'POST',
-            header:{
-                'content-type':'application/x-www-form-urlencoded'
-            },
-            success:function(res){
-                console.log(res.data)
-                getApp().globalData.user=res.data
-                console.log(getApp().globalData.user)
-            },
-            fail:function(res){
-                console.log('sign_method_failed')
-            },
-            complete:function(res){
-                console.log('sign_method_completed')
-            }
-          })
+
     },
 
     phonenumberInput: function(e) {
